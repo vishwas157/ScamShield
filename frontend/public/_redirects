@@ -1,0 +1,6 @@
+# Netlify Production Redirects & Reverse Proxy
+# 1. Proxy any relative /api/* requests directly to the live Render backend
+/api/*  https://scamshield-api-7z20.onrender.com/api/:splat  200!
+
+# 2. SPA client-side routing fallback for React Router
+/*      /index.html                                          200

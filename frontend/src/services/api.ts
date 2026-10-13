@@ -12,14 +12,50 @@ import {
   MLStatusResponse
 } from '../types';
 
-// Determine production API Base URL:
-// - Supports cross-origin backend deployments (e.g., Render/Railway) via VITE_API_BASE_URL
-// - Falls back cleanly to '/api' for same-origin or local reverse proxy development
-const rawBaseURL = (import.meta.env.VITE_API_BASE_URL as string) || '/api';
-const cleanBaseURL = rawBaseURL.endsWith('/') && rawBaseURL !== '/' ? rawBaseURL.slice(0, -1) : rawBaseURL;
+/**
+ * Resolves and normalizes the production API base URL:
+ * - When VITE_API_BASE_URL is 'https://scamshield-api-7z20.onrender.com', resolves to 'https://scamshield-api-7z20.onrender.com/api'.
+ * - When VITE_API_BASE_URL is 'https://scamshield-api-7z20.onrender.com/api', preserves it without duplicating '/api'.
+ * - When VITE_API_BASE_URL is unset, empty, or '/api', resolves to '/api' for local Vite dev server proxy.
+ */
+export function getApiBaseUrl(): string {
+  const envUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
+
+  // If not provided or empty, fallback cleanly to relative '/api'
+  if (!envUrl) {
+    return '/api';
+  }
+
+  // Strip trailing slashes
+  let trimmed = envUrl.replace(/\/+$/, '');
+
+  // Handle root slash
+  if (trimmed === '' || trimmed === '/') {
+    return '/api';
+  }
+
+  // Absolute URL (production cross-origin deployment, e.g. Render)
+  if (/^https?:\/\//i.test(trimmed)) {
+    // If it already ends with /api (case-insensitive), preserve it
+    if (trimmed.toLowerCase().endsWith('/api')) {
+      return trimmed;
+    }
+    // Append /api so all apiService paths (e.g. /auth/register) route to FastAPI's mounted /api router
+    return `${trimmed}/api`;
+  }
+
+  // Relative path (e.g. '/api' or 'api')
+  if (trimmed === '/api' || trimmed.toLowerCase().endsWith('/api')) {
+    return trimmed;
+  }
+
+  return trimmed.startsWith('/') ? `${trimmed}/api` : `/${trimmed}/api`;
+}
+
+export const API_BASE_URL = getApiBaseUrl();
 
 const api = axios.create({
-  baseURL: cleanBaseURL,
+  baseURL: API_BASE_URL,
   timeout: 15000,
 });
 

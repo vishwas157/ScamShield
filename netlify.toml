@@ -1,0 +1,19 @@
+# Netlify Configuration for ScamShield Production
+[build]
+  base = "frontend"
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  VITE_API_BASE_URL = "https://scamshield-api-7z20.onrender.com"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://scamshield-api-7z20.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

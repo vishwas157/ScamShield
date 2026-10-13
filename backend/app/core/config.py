@@ -66,12 +66,13 @@ class Settings(BaseSettings):
                 if clean:
                     origins.add(clean)
                     
-        # 3. Always allow standard local development origins
+        # 3. Always allow standard local development and deployed frontend origins
         default_local = [
             "http://localhost:5173",
             "http://127.0.0.1:5173",
             "http://localhost:3000",
             "http://127.0.0.1:3000",
+            "https://scamshield16.netlify.app",
         ]
         for loc in default_local:
             origins.add(loc)
