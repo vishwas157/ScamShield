@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.env
+.env.*
+*.env
+!.env.example
+.venv/
+env/
+venv/
+ENV/
+
+# Data store (Local development fallback JSONs)
+app/data_store/
+data_store/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+logs/
+*.log
+
+# Machine Learning Artifacts
+*.joblib
+*.pkl
+*.pickle

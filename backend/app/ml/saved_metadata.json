@@ -1,0 +1,54 @@
+{
+  "model_version": "RF-v1.0-20261013",
+  "algorithm": "RandomForestClassifier",
+  "parameters": {
+    "n_estimators": 100,
+    "max_depth": 8,
+    "random_state": 42
+  },
+  "trained_at": "2026-10-13T13:03:16.886168",
+  "dataset_description": "Synthetic financial fraud benchmark simulating Indian mobile/UPI frequency, velocity, and financial loss metrics (Academic Demonstration).",
+  "feature_names": [
+    "approved_reports_count",
+    "distinct_reporters",
+    "days_since_first_report",
+    "days_since_last_report",
+    "total_loss_amount",
+    "category_severity_score",
+    "dispute_count"
+  ],
+  "feature_importances": {
+    "total_loss_amount": 0.2984,
+    "approved_reports_count": 0.2907,
+    "distinct_reporters": 0.1954,
+    "category_severity_score": 0.1571,
+    "days_since_last_report": 0.0326,
+    "days_since_first_report": 0.0257,
+    "dispute_count": 0.0
+  },
+  "evaluation_summary": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "confusion_matrix": [
+      [
+        49,
+        0,
+        0
+      ],
+      [
+        0,
+        49,
+        0
+      ],
+      [
+        0,
+        0,
+        42
+      ]
+    ],
+    "train_samples": 560,
+    "test_samples": 140
+  }
+}
